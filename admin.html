@@ -1,0 +1,52 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Painel de gestão da loja Prodantas Online." />
+    <title>Gestão da loja | Prodantas Online</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <div class="admin-shell">
+      <aside class="admin-sidebar" id="adminSidebar">
+        <a class="admin-brand" href="index.html"><span class="brand-mark">PD</span><span><strong>PRODANTAS</strong><em>GESTÃO</em></span></a>
+        <div class="store-status"><span></span><div><strong>Loja online</strong><small>Operando normalmente</small></div></div>
+        <nav class="admin-nav" aria-label="Navegação do painel">
+          <button class="active" data-section="overview">⌂ <span>Visão geral</span></button>
+          <button data-section="products">▦ <span>Produtos e estoque</span></button>
+          <button data-section="orders">◷ <span>Pedidos</span><b>3</b></button>
+          <button data-section="campaigns">▤ <span>Banners e campanhas</span></button>
+          <button data-section="settings">⚙ <span>Configurações</span></button>
+        </nav>
+        <div class="sidebar-bottom"><a href="index.html">↗ Ver loja</a><small>Área do lojista<br />Prodantas Online</small></div>
+      </aside>
+      <main class="admin-main">
+        <header class="admin-topbar"><button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button><div><p class="admin-kicker">Segunda-feira, 16 de novembro</p><h1 id="pageTitle">Visão geral</h1></div><div class="admin-user"><span class="notification">♧<i>3</i></span><span class="user-avatar">PD</span><div><strong>Administrador</strong><small>Prodantas Online</small></div></div></header>
+
+        <section class="admin-section active" id="section-overview">
+          <div class="welcome-row"><div><h2>Bom dia, Prodantas.</h2><p>Aqui está o movimento da sua loja hoje.</p></div><button class="admin-button primary" data-open-product>+ Novo produto</button></div>
+          <div class="metric-grid"><article class="metric-card"><span>Vendas hoje</span><strong>R$ 4.286,40</strong><small class="positive">↑ 18,4% <em>vs. ontem</em></small><div class="metric-spark red"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article><article class="metric-card"><span>Pedidos</span><strong>32</strong><small class="positive">↑ 12,1% <em>vs. ontem</em></small><div class="metric-spark blue"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article><article class="metric-card"><span>Ticket médio</span><strong>R$ 134,00</strong><small class="neutral">→ 2,3% <em>vs. ontem</em></small><div class="metric-spark yellow"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article><article class="metric-card"><span>Clientes novos</span><strong>18</strong><small class="positive">↑ 7,8% <em>vs. ontem</em></small><div class="metric-spark green"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article></div>
+          <div class="dashboard-grid"><article class="panel sales-panel"><div class="panel-heading"><div><h3>Vendas da semana</h3><p>Receita bruta por dia</p></div><select aria-label="Período do gráfico"><option>Últimos 7 dias</option><option>Este mês</option></select></div><div class="chart"><div class="chart-y"><span>R$ 6k</span><span>R$ 4k</span><span>R$ 2k</span><span>R$ 0</span></div><div class="chart-lines"><i></i><i></i><i></i><i></i></div><div class="chart-bars"><div style="--h:42%"><b>Seg</b></div><div style="--h:66%"><b>Ter</b></div><div style="--h:54%"><b>Qua</b></div><div style="--h:79%"><b>Qui</b></div><div style="--h:62%"><b>Sex</b></div><div style="--h:88%"><b>Sáb</b></div><div style="--h:51%"><b>Dom</b></div></div></div></article><article class="panel stock-panel"><div class="panel-heading"><div><h3>Estoque em atenção</h3><p>Itens que precisam de reposição</p></div><button class="link-button" data-section-target="products">Ver todos</button></div><div id="stockList"></div></article></div>
+          <article class="panel recent-panel"><div class="panel-heading"><div><h3>Pedidos recentes</h3><p>Últimas compras da loja</p></div><button class="link-button" data-section-target="orders">Ver pedidos</button></div><div class="orders-table" id="recentOrders"></div></article>
+        </section>
+
+        <section class="admin-section" id="section-products"><div class="section-toolbar"><div><h2>Produtos e estoque</h2><p>Cadastre, edite e acompanhe seus produtos.</p></div><button class="admin-button primary" data-open-product>+ Novo produto</button></div><div class="product-tools"><label>⌕ <input id="adminProductSearch" type="search" placeholder="Buscar produto" /></label><select id="adminCategoryFilter"><option value="all">Todas as categorias</option><option>Materiais</option><option>Ferramentas</option><option>Elétrica</option><option>Hidráulica</option><option>Tintas</option></select><span id="productCount"></span></div><div class="admin-product-table" id="adminProductTable"></div></section>
+
+        <section class="admin-section" id="section-orders"><div class="section-toolbar"><div><h2>Pedidos</h2><p>Acompanhe o fluxo de cada venda.</p></div><button class="admin-button secondary">⇩ Exportar relatório</button></div><div class="order-filter-row"><button class="selected">Todos <b>32</b></button><button>Aguardando pagamento <b>8</b></button><button>Em separação <b>11</b></button><button>Enviados <b>13</b></button></div><div class="orders-table full" id="allOrders"></div></section>
+
+        <section class="admin-section" id="section-campaigns"><div class="section-toolbar"><div><h2>Banners e campanhas</h2><p>Escolha o que aparece em destaque na sua loja.</p></div><button class="admin-button primary" id="saveCampaigns">Salvar alterações</button></div><div class="campaign-grid"><article class="campaign-editor campaign-red"><div class="campaign-preview"><span>condição especial</span><strong>Sua obra anda.<br />O frete também.</strong><small>Frete grátis acima de R$ 299</small></div><div class="campaign-fields"><label>Título do banner<input value="Sua obra anda. O frete também." /></label><label>Texto curto<input value="Frete grátis acima de R$ 299" /></label><label class="switch-row">Exibir campanha <input type="checkbox" checked /><i></i></label></div></article><article class="campaign-editor campaign-yellow"><div class="campaign-preview"><span>acabamento em alta</span><strong>Cor nova,<br />parede nova.</strong><small>Tintas a partir de R$ 29,90</small></div><div class="campaign-fields"><label>Título do banner<input value="Cor nova, parede nova." /></label><label>Texto curto<input value="Tintas a partir de R$ 29,90" /></label><label class="switch-row">Exibir campanha <input type="checkbox" checked /><i></i></label></div></article></div></section>
+
+        <section class="admin-section" id="section-settings"><div class="section-toolbar"><div><h2>Configurações da loja</h2><p>Dados que aparecem para seus clientes.</p></div><button class="admin-button primary" id="saveSettings">Salvar configurações</button></div><div class="settings-grid"><article class="panel settings-card"><h3>Contato e atendimento</h3><label>Nome da loja<input value="Prodantas Online" /></label><label>WhatsApp<input value="+55 84 8743-1811" /></label><label>E-mail de atendimento<input value="contato@prodantasonline.com" /></label></article><article class="panel settings-card"><h3>Entrega e pagamento</h3><label>Frete grátis a partir de<input value="R$ 299,00" /></label><label>Prazo padrão<input value="2 a 5 dias úteis" /></label><label>Formas aceitas<input value="Pix, cartão e boleto" /></label></article></div></section>
+      </main>
+    </div>
+    <div class="modal-backdrop" id="productModal"><form class="product-modal" id="productForm"><div class="modal-heading"><div><p class="admin-kicker">Catálogo</p><h2>Novo produto</h2></div><button type="button" class="modal-close" data-close-modal>×</button></div><input type="hidden" id="productId" /><label>Nome do produto<input id="productName" required placeholder="Ex.: Cimento CPII 50kg" /></label><div class="form-row"><label>Categoria<select id="productCategory"><option>Materiais</option><option>Ferramentas</option><option>Elétrica</option><option>Hidráulica</option><option>Tintas</option></select></label><label>Estoque<input id="productStock" type="number" min="0" value="10" /></label></div><div class="form-row"><label>Preço<input id="productPrice" type="number" min="0" step="0.01" value="0" /></label><label>Preço anterior<input id="productOldPrice" type="number" min="0" step="0.01" value="0" /></label></div><label>URL da foto do produto<input id="productPhoto" type="url" placeholder="https://..." /></label><div class="modal-actions"><button type="button" class="admin-button secondary" data-close-modal>Cancelar</button><button class="admin-button primary" type="submit">Salvar produto</button></div></form></div>
+    <div class="admin-toast" id="adminToast"></div>
+    <script src="admin.js"></script>
+  </body>
+</html>
+
