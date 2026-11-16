@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Prodantas Online — materiais de construção, ferramentas, tintas e hidráulica entregues na sua obra." />
+    <title>Prodantas Online | Material de construção</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="announcement"><span class="pulse"></span> Entrega rápida para sua obra • Até 10x sem juros no cartão</div>
+
+    <header class="site-header">
+      <div class="header-main container">
+        <a class="brand" href="#inicio" aria-label="Prodantas Online - início">
+          <span class="brand-mark">PD</span>
+          <span class="brand-name"><strong>PRODANTAS</strong><em>ONLINE</em><small>.COM</small></span>
+        </a>
+        <form class="search" id="searchForm" role="search">
+          <label class="sr-only" for="searchInput">Buscar produto</label>
+          <input id="searchInput" type="search" placeholder="O que você precisa para sua obra?" autocomplete="off" />
+          <button aria-label="Buscar" type="submit">⌕</button>
+        </form>
+        <div class="header-actions">
+          <button class="header-action" type="button" data-scroll="#orders"><span class="action-icon">◷</span><span>Meus<br /><b>pedidos</b></span></button>
+          <button class="header-action cart-trigger" type="button" aria-label="Abrir carrinho"><span class="action-icon cart-icon">🛒<i id="cartCount">0</i></span><span>Seu<br /><b>carrinho</b></span></button>
+        </div>
+      </div>
+      <nav class="category-nav" aria-label="Categorias principais">
+        <div class="container nav-inner">
+          <button class="category-menu" type="button" id="categoryMenu"><span>☰</span> Todas as categorias</button>
+          <a href="#catalogo" data-category-link="Materiais">Materiais de construção</a>
+          <a href="#catalogo" data-category-link="Ferramentas">Ferramentas</a>
+          <a href="#catalogo" data-category-link="Elétrica">Elétrica</a>
+          <a href="#catalogo" data-category-link="Hidráulica">Hidráulica</a>
+          <a href="#catalogo" data-category-link="Tintas">Tintas</a>
+          <a class="sale-link" href="#ofertas">Ofertas da semana <span>↗</span></a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="inicio">
+      <section class="hero container">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> A loja que entende de obra</p>
+          <h1>O material certo<br /><strong>faz a obra render.</strong></h1>
+          <p class="hero-text">Do primeiro tijolo ao último acabamento, encontre qualidade, preço justo e entrega que chega no ritmo do seu projeto.</p>
+          <div class="hero-actions"><a class="button button-primary" href="#catalogo">Comprar agora <span>→</span></a><a class="text-link" href="#beneficios">Por que comprar com a gente?</a></div>
+          <div class="hero-proof"><div class="proof-avatars"><span>JM</span><span>CS</span><span>RA</span></div><p><strong>+12 mil clientes</strong><br />comprando para construir melhor</p></div>
+        </div>
+        <div class="hero-visual">
+          <div class="visual-stripe"></div>
+          <div class="hero-logo-card"><img src="assets/prodantas-logo.png" alt="Logo Prodantas Online com profissional da construção" /></div>
+          <div class="delivery-card"><span>🚚</span><div><strong>Entrega combinada</strong><small>Agende o melhor dia para receber</small></div></div>
+          <div class="hero-stamp">Desde<br /><strong>2014</strong></div>
+        </div>
+      </section>
+
+      <section class="category-section container" id="catalogo">
+        <div class="section-heading"><div><p class="eyebrow">Tudo para construir</p><h2>Compre por categoria</h2></div><a class="text-link" href="#todos-produtos">Ver catálogo completo <span>→</span></a></div>
+        <div class="category-grid">
+          <button class="category-card category-card-red" data-category="Materiais"><span class="category-emoji">🧱</span><strong>Materiais</strong><small>Base da obra</small><i>→</i></button>
+          <button class="category-card category-card-yellow" data-category="Ferramentas"><span class="category-emoji">🛠️</span><strong>Ferramentas</strong><small>Para fazer acontecer</small><i>→</i></button>
+          <button class="category-card category-card-blue" data-category="Elétrica"><span class="category-emoji">💡</span><strong>Elétrica</strong><small>Instalação segura</small><i>→</i></button>
+          <button class="category-card category-card-steel" data-category="Hidráulica"><span class="category-emoji">🚰</span><strong>Hidráulica</strong><small>Água no lugar certo</small><i>→</i></button>
+          <button class="category-card category-card-sand" data-category="Tintas"><span class="category-emoji">🎨</span><strong>Tintas</strong><small>Acabamento com cor</small><i>→</i></button>
+        </div>
+      </section>
+
+      <section class="featured-section container" id="ofertas">
+        <div class="section-heading"><div><p class="eyebrow">Preço bom para começar</p><h2>Ofertas da semana</h2></div><div class="countdown" aria-label="Ofertas válidas por tempo limitado"><span>Termina em</span><strong id="countdown">02d 14h 32m</strong></div></div>
+        <div class="catalog-layout">
+          <aside class="filters" aria-label="Filtros do catálogo">
+            <div class="filter-top"><strong>Filtre por</strong><button id="clearFilters" type="button">Limpar</button></div>
+            <div class="filter-group"><span>Categoria</span><label><input type="checkbox" value="Materiais" /> Materiais de construção</label><label><input type="checkbox" value="Ferramentas" /> Ferramentas</label><label><input type="checkbox" value="Elétrica" /> Elétrica</label><label><input type="checkbox" value="Hidráulica" /> Hidráulica</label><label><input type="checkbox" value="Tintas" /> Tintas</label></div>
+            <div class="filter-group"><span>Faixa de preço</span><label><input type="radio" name="price" value="all" checked /> Todos os preços</label><label><input type="radio" name="price" value="under50" /> Até R$ 50</label><label><input type="radio" name="price" value="50to150" /> R$ 50 a R$ 150</label><label><input type="radio" name="price" value="over150" /> Acima de R$ 150</label></div>
+            <div class="filter-note"><span>💬</span><p><strong>Precisa de ajuda?</strong><br />Fale com um especialista em materiais.</p><a href="https://wa.me/5511999999999" target="_blank" rel="noreferrer">Chamar no WhatsApp</a></div>
+          </aside>
+          <div class="product-area"><div class="mobile-filter-row"><button type="button" id="mobileFilters">☷ Filtros</button><select id="sortProducts" aria-label="Ordenar produtos"><option value="featured">Mais relevantes</option><option value="priceAsc">Menor preço</option><option value="priceDesc">Maior preço</option></select></div><div class="product-grid" id="productGrid"></div><p class="no-results" id="noResults" hidden>Nenhum produto encontrado. Tente outro termo ou limpe os filtros.</p></div>
+        </div>
+      </section>
+
+      <section class="benefits" id="beneficios"><div class="container benefits-grid"><div class="benefit"><span>✓</span><div><strong>Compra segura</strong><p>Seus dados protegidos do começo ao fim.</p></div></div><div class="benefit"><span>▣</span><div><strong>Retire na loja</strong><p>Compre online e retire quando quiser.</p></div></div><div class="benefit"><span>↗</span><div><strong>Preço de obra</strong><p>Condições especiais para grandes volumes.</p></div></div><div class="benefit"><span>☎</span><div><strong>Atendimento de verdade</strong><p>Gente que entende e ajuda você.</p></div></div></div></section>
+
+      <section class="service-banner container" id="orders"><div class="service-copy"><p class="eyebrow">Vai construir ou reformar?</p><h2>Monte sua lista com quem entende.</h2><p>Conte o que você precisa. A gente ajuda a calcular quantidades, escolher marcas e evitar desperdício.</p><a class="button button-dark" href="https://wa.me/5511999999999" target="_blank" rel="noreferrer">Falar com um especialista <span>↗</span></a></div><div class="service-tools"><span>📐</span><span>🧰</span><span>🧱</span></div></section>
+    </main>
+
+    <footer class="site-footer"><div class="container footer-grid"><div><a class="brand footer-brand" href="#inicio"><span class="brand-mark">PD</span><span class="brand-name"><strong>PRODANTAS</strong><em>ONLINE</em><small>.COM</small></span></a><p>Seu local online de comprar material de construção.</p></div><div><strong>Comprar</strong><a href="#catalogo">Materiais de construção</a><a href="#catalogo">Ferramentas</a><a href="#catalogo">Tintas</a></div><div><strong>Atendimento</strong><a href="#orders">Meus pedidos</a><a href="mailto:contato@prodantasonline.com">contato@prodantasonline.com</a><a href="https://wa.me/5511999999999" target="_blank" rel="noreferrer">WhatsApp</a></div><div><strong>Pagamento seguro</strong><p class="payment-icons">VISA · ◉ · PIX</p><small>© 2024 Prodantas Online. Todos os direitos reservados.</small></div></div></footer>
+
+    <aside class="cart-drawer" id="cartDrawer" aria-hidden="true"><div class="drawer-header"><div><p class="eyebrow">Sua seleção</p><h2>Meu carrinho</h2></div><button class="close-drawer" type="button" aria-label="Fechar carrinho">×</button></div><div class="cart-items" id="cartItems"></div><div class="cart-empty" id="cartEmpty"><span>🛒</span><strong>Seu carrinho está vazio</strong><p>Adicione produtos para começar sua compra.</p><a href="#catalogo" class="button button-primary close-after-click">Ver produtos</a></div><div class="cart-summary" id="cartSummary" hidden><div><span>Subtotal</span><strong id="cartSubtotal">R$ 0,00</strong></div><p>Frete calculado no checkout</p><button class="button button-primary checkout-button" type="button">Ir para checkout <span>→</span></button></div></aside><div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
+
