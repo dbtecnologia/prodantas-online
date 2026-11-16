@@ -65,6 +65,29 @@ function toggleDrawer(open) { $('#cartDrawer').classList.toggle('open', open); $
 function showToast(message) { const toast = $('#toast'); toast.textContent = message; toast.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer = setTimeout(() => toast.classList.remove('show'), 2800); }
 function applyCategory(category) { state.categories = [category]; document.querySelectorAll('.filter-group input[type="checkbox"]').forEach(input => { input.checked = input.value === category; }); document.querySelector('#catalogo').scrollIntoView({ behavior: 'smooth' }); renderProducts(); }
 
+function initPromoCarousel() {
+  const carousel = $('#promoCarousel'); const track = $('#promoTrack'); const dots = $('#promoDots');
+  if (!carousel || !track || !dots) return;
+  const slides = [...track.children]; let current = 0; let timer; let startX = 0;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  dots.innerHTML = slides.map((_, index) => `<button class="banner-dot${index === 0 ? ' active' : ''}" type="button" aria-label="Ir para o banner ${index + 1}" aria-current="${index === 0}"></button>`).join('');
+  const dotButtons = [...dots.children];
+  function goTo(index, restart = true) {
+    current = (index + slides.length) % slides.length;
+    track.style.transform = `translate3d(-${current * 100}%, 0, 0)`;
+    dotButtons.forEach((dot, dotIndex) => { dot.classList.toggle('active', dotIndex === current); dot.setAttribute('aria-current', String(dotIndex === current)); });
+    if (restart) restartTimer();
+  }
+  function restartTimer() { clearInterval(timer); if (!reduceMotion) timer = setInterval(() => goTo(current + 1, false), 5200); }
+  carousel.querySelector('.banner-prev')?.addEventListener('click', () => goTo(current - 1));
+  carousel.querySelector('.banner-next')?.addEventListener('click', () => goTo(current + 1));
+  dotButtons.forEach((dot, index) => dot.addEventListener('click', () => goTo(index)));
+  carousel.addEventListener('pointerenter', () => clearInterval(timer)); carousel.addEventListener('pointerleave', restartTimer);
+  carousel.addEventListener('pointerdown', event => { startX = event.clientX; });
+  carousel.addEventListener('pointerup', event => { const distance = event.clientX - startX; if (Math.abs(distance) > 45) goTo(current + (distance < 0 ? 1 : -1)); });
+  restartTimer();
+}
+
 document.addEventListener('click', event => {
   const addButton = event.target.closest('[data-add]'); if (addButton) addToCart(Number(addButton.dataset.add));
   const qtyButton = event.target.closest('[data-qty]'); if (qtyButton) { const item = state.cart.find(cartItem => cartItem.id === Number(qtyButton.dataset.qty)); item.qty += Number(qtyButton.dataset.change); if (item.qty < 1) state.cart = state.cart.filter(cartItem => cartItem.id !== item.id); saveCart(); }
@@ -85,5 +108,5 @@ document.querySelectorAll('[data-scroll]').forEach(button => button.addEventList
 document.querySelector('.checkout-button').addEventListener('click', () => showToast('Checkout demonstrativo: integração de pagamento pronta para conectar.'));
 $('#categoryMenu').addEventListener('click', () => document.querySelector('#catalogo').scrollIntoView({ behavior: 'smooth' }));
 
-renderProducts(); renderCart(); loadCloudProducts();
+renderProducts(); renderCart(); initPromoCarousel(); loadCloudProducts();
 
