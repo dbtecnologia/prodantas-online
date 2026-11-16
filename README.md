@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Prodantas Online
 
 E-commerce front-end responsivo para materiais de construção, ferramentas, tintas, elétrica e hidráulica.
