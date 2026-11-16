@@ -1,13 +1,13 @@
 const products = [
-  { id: 1, name: 'Kit torneira monocomando Black', category: 'Hidráulica', price: 129.90, oldPrice: 159.90, image: '🚰', tone: 'steel', badge: 'OFERTA' },
-  { id: 2, name: 'Tinta acrílica fosca 18L branca', category: 'Tintas', price: 189.90, oldPrice: 229.90, image: '🪣', tone: 'red', badge: 'MAIS VENDIDO' },
-  { id: 3, name: 'Furadeira de impacto 650W', category: 'Ferramentas', price: 219.90, oldPrice: 269.90, image: '🔩', tone: 'yellow', badge: 'OFERTA' },
-  { id: 4, name: 'Lâmpada LED bulbo 12W — 3 un.', category: 'Elétrica', price: 24.90, oldPrice: 34.90, image: '💡', tone: 'blue', badge: 'OFERTA' },
-  { id: 5, name: 'Argamassa AC-II interna e externa 20kg', category: 'Materiais', price: 18.90, oldPrice: 22.90, image: '🧱', tone: 'sand', badge: 'PREÇO DE OBRA' },
-  { id: 6, name: 'Jogo de ferramentas 100 peças', category: 'Ferramentas', price: 159.90, oldPrice: 199.90, image: '🛠️', tone: 'purple', badge: 'OFERTA' },
-  { id: 7, name: 'Cabo flexível 2,5mm 100 metros', category: 'Elétrica', price: 119.90, oldPrice: 139.90, image: '🔌', tone: 'blue', badge: '' },
-  { id: 8, name: 'Impermeabilizante parede 4kg', category: 'Materiais', price: 79.90, oldPrice: 99.90, image: '🧴', tone: 'sand', badge: 'OFERTA' },
-  { id: 9, name: 'Rolo de pintura antigota 23cm', category: 'Tintas', price: 29.90, oldPrice: 39.90, image: '🖌️', tone: 'yellow', badge: '' },
+  { id: 1, name: 'Kit torneira monocomando Black', category: 'Hidráulica', price: 129.90, oldPrice: 159.90, image: '🚰', photo: 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80', tone: 'steel', badge: 'OFERTA' },
+  { id: 2, name: 'Tinta acrílica fosca 18L branca', category: 'Tintas', price: 189.90, oldPrice: 229.90, image: '🪣', photo: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80', tone: 'red', badge: 'MAIS VENDIDO' },
+  { id: 3, name: 'Furadeira de impacto 650W', category: 'Ferramentas', price: 219.90, oldPrice: 269.90, image: '🔩', photo: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=800&q=80', tone: 'yellow', badge: 'OFERTA' },
+  { id: 4, name: 'Lâmpada LED bulbo 12W — 3 un.', category: 'Elétrica', price: 24.90, oldPrice: 34.90, image: '💡', photo: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=80', tone: 'blue', badge: 'OFERTA' },
+  { id: 5, name: 'Argamassa AC-II interna e externa 20kg', category: 'Materiais', price: 18.90, oldPrice: 22.90, image: '🧱', photo: 'https://images.unsplash.com/photo-1516216628859-9bccecab13ca?auto=format&fit=crop&w=800&q=80', tone: 'sand', badge: 'PREÇO DE OBRA' },
+  { id: 6, name: 'Jogo de ferramentas 100 peças', category: 'Ferramentas', price: 159.90, oldPrice: 199.90, image: '🛠️', photo: 'https://images.unsplash.com/photo-1586864387789-628af9feed72?auto=format&fit=crop&w=800&q=80', tone: 'purple', badge: 'OFERTA' },
+  { id: 7, name: 'Cabo flexível 2,5mm 100 metros', category: 'Elétrica', price: 119.90, oldPrice: 139.90, image: '🔌', photo: 'https://images.unsplash.com/photo-1517420704952-d9f39e95b43f?auto=format&fit=crop&w=800&q=80', tone: 'blue', badge: '' },
+  { id: 8, name: 'Impermeabilizante parede 4kg', category: 'Materiais', price: 79.90, oldPrice: 99.90, image: '🧴', photo: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80', tone: 'sand', badge: 'OFERTA' },
+  { id: 9, name: 'Rolo de pintura antigota 23cm', category: 'Tintas', price: 29.90, oldPrice: 39.90, image: '🖌️', photo: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80', tone: 'yellow', badge: '' },
 ];
 
 const state = { query: '', categories: [], price: 'all', sort: 'featured', cart: JSON.parse(localStorage.getItem('prodantas-cart') || '[]') };
@@ -29,7 +29,7 @@ function filteredProducts() {
 function renderProducts() {
   const grid = $('#productGrid');
   const result = filteredProducts();
-  grid.innerHTML = result.map(product => `<article class="product-card"><div class="product-image ${product.tone}">${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}<span aria-hidden="true">${product.image}</span></div><div class="product-info"><span class="product-category">${product.category}</span><p class="product-name">${product.name}</p><div class="product-price"><div><s>${money(product.oldPrice)}</s><strong>${money(product.price)}</strong><small> no Pix</small></div><button class="add-product" data-add="${product.id}" aria-label="Adicionar ${product.name}">+</button></div></div></article>`).join('');
+  grid.innerHTML = result.map(product => `<article class="product-card"><div class="product-image ${product.tone}">${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}<img class="product-photo" src="${product.photo}" alt="${product.name}" loading="lazy" /><span class="product-fallback" aria-hidden="true">${product.image}</span></div><div class="product-info"><span class="product-category">${product.category}</span><p class="product-name">${product.name}</p><div class="product-price"><div><s>${money(product.oldPrice)}</s><strong>${money(product.price)}</strong><small> no Pix</small></div><button class="add-product" data-add="${product.id}" aria-label="Adicionar ${product.name}">+</button></div></div></article>`).join('');
   $('#noResults').hidden = result.length > 0;
 }
 
