@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 const seedProducts = [
   { id: 1, name: 'Kit torneira monocomando Black', category: 'Hidráulica', price: 129.90, oldPrice: 159.90, stock: 8, active: true, photo: 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=500&q=80', image: '🚰' },
   { id: 2, name: 'Tinta acrílica fosca 18L branca', category: 'Tintas', price: 189.90, oldPrice: 229.90, stock: 4, active: true, photo: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=500&q=80', image: '🪣' },
