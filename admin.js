@@ -13,10 +13,22 @@ const sampleOrders = [
   { id: '#PD-1045', customer: 'Rafael Costa', items: '7 itens', total: 'R$ 813,40', status: 'Aguardando pagamento', className: '', date: 'Ontem, 18:20' },
 ];
 let products = JSON.parse(localStorage.getItem('prodantas-products') || 'null') || seedProducts;
+let cloudSession = null;
 
 const $ = selector => document.querySelector(selector);
 const money = value => Number(value || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 function saveProducts() { localStorage.setItem('prodantas-products', JSON.stringify(products)); }
+function cloudReady() { return Boolean(window.ProdantasCloud?.ready); }
+function setAdminShell(visible) { document.querySelector('.admin-shell').hidden = !visible; document.querySelector('#adminAuth').hidden = visible; }
+async function initializeCloud() {
+  if (!cloudReady()) return;
+  cloudSession = await window.ProdantasCloud.getSession();
+  if (!cloudSession) { setAdminShell(false); return; }
+  try {
+    const remoteProducts = await window.ProdantasCloud.listProducts(true);
+    if (remoteProducts?.length) { products = remoteProducts.map(product => ({ ...product, oldPrice: Number(product.old_price || 0) })); saveProducts(); renderProducts(); renderStock(); }
+  } catch (error) { toast(`Banco online indisponível: ${error.message}`); }
+}
 function toast(message) { const el = $('#adminToast'); el.textContent = message; el.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer = setTimeout(() => el.classList.remove('show'), 2600); }
 function orderMarkup(order) { return `<div class="order-row"><strong>${order.id}<small>${order.date}</small></strong><span>${order.customer}<small>${order.items}</small></span><strong>${order.total}</strong><span class="order-status ${order.className}">${order.status}</span><button data-order="${order.id}">Ver detalhes</button></div>`; }
 function renderOrders() { const header = '<div class="order-row header"><span>Pedido</span><span>Cliente</span><span>Total</span><span>Status</span><span></span></div>'; $('#recentOrders').innerHTML = header + sampleOrders.slice(0, 3).map(orderMarkup).join(''); $('#allOrders').innerHTML = header + sampleOrders.map(orderMarkup).join(''); }
@@ -32,13 +44,18 @@ document.addEventListener('click', event => {
   if (event.target.closest('[data-open-product]')) openProduct();
   if (event.target.closest('[data-close-modal]')) closeProduct();
   const edit = event.target.closest('[data-edit]'); if (edit) openProduct(products.find(product => product.id === Number(edit.dataset.edit)));
-  const remove = event.target.closest('[data-delete]'); if (remove) { products = products.filter(product => product.id !== Number(remove.dataset.delete)); saveProducts(); renderProducts(); renderStock(); toast('Produto removido do painel.'); }
+  const remove = event.target.closest('[data-delete]'); if (remove) { const id = Number(remove.dataset.delete); products = products.filter(product => product.id !== id); saveProducts(); renderProducts(); renderStock(); if (cloudReady()) window.ProdantasCloud.deleteProduct(id).then(() => toast('Produto arquivado no banco online.')).catch(error => toast(`Erro ao arquivar: ${error.message}`)); else toast('Produto removido do painel.'); }
   if (event.target.closest('[data-order]')) toast(`Abrindo ${event.target.closest('[data-order]').dataset.order} — o detalhe completo entra na próxima etapa.`);
   if (event.target.closest('#menuToggle')) $('#adminSidebar').classList.toggle('open');
   if (event.target.closest('#saveCampaigns')) toast('Campanhas salvas na sessão atual.');
   if (event.target.closest('#saveSettings')) toast('Configurações salvas na sessão atual.');
 });
-$('#productForm').addEventListener('submit', event => { event.preventDefault(); const id = Number($('#productId').value) || Date.now(); const next = { id, name: $('#productName').value.trim(), category: $('#productCategory').value, stock: Number($('#productStock').value), price: Number($('#productPrice').value), oldPrice: Number($('#productOldPrice').value), photo: $('#productPhoto').value.trim() || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=500&q=80', active: true, image: '📦', tone: 'steel', badge: '' }; const index = products.findIndex(product => product.id === id); if (index >= 0) products[index] = { ...products[index], ...next }; else products.unshift(next); saveProducts(); renderProducts(); renderStock(); closeProduct(); toast('Produto salvo. A loja usa esta atualização neste navegador.'); });
+$('#productForm').addEventListener('submit', async event => { event.preventDefault(); const id = Number($('#productId').value) || undefined; const next = { id, name: $('#productName').value.trim(), category: $('#productCategory').value, stock: Number($('#productStock').value), price: Number($('#productPrice').value), oldPrice: Number($('#productOldPrice').value), photo: $('#productPhoto').value.trim() || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=500&q=80', active: true, image: '📦', tone: 'steel', badge: '' }; try { const saved = cloudReady() ? await window.ProdantasCloud.upsertProduct(next) : null; const finalProduct = saved ? { ...saved, oldPrice: Number(saved.old_price || next.oldPrice) } : { ...next, id: id || Date.now() }; const index = products.findIndex(product => product.id === finalProduct.id); if (index >= 0) products[index] = { ...products[index], ...finalProduct }; else products.unshift(finalProduct); saveProducts(); renderProducts(); renderStock(); closeProduct(); toast(cloudReady() ? 'Produto salvo no banco online.' : 'Produto salvo localmente.'); } catch (error) { toast(`Não foi possível salvar: ${error.message}`); } });
 $('#adminProductSearch').addEventListener('input', renderProducts); $('#adminCategoryFilter').addEventListener('change', renderProducts);
-renderProducts(); renderStock(); renderOrders();
+$('#saveCampaigns')?.addEventListener('click', async () => { if (!cloudReady()) return; const cards = [...document.querySelectorAll('.campaign-editor')].map(card => ({ title: card.querySelector('input')?.value || '', text: card.querySelectorAll('input')[1]?.value || '', active: card.querySelector('input[type="checkbox"]')?.checked ?? true })); try { await window.ProdantasCloud.saveStoreValue('campaigns', cards); toast('Campanhas salvas no banco online.'); } catch (error) { toast(`Erro ao salvar campanhas: ${error.message}`); } });
+$('#saveSettings')?.addEventListener('click', async () => { if (!cloudReady()) return; const inputs = [...document.querySelectorAll('.settings-card input')].map(input => input.value); try { await window.ProdantasCloud.saveStoreValue('settings', { storeName: inputs[0], whatsapp: inputs[1], email: inputs[2], freeShipping: inputs[3], deliveryTime: inputs[4], payments: inputs[5] }); toast('Configurações salvas no banco online.'); } catch (error) { toast(`Erro ao salvar configurações: ${error.message}`); } });
+$('#adminLoginForm')?.addEventListener('submit', async event => { event.preventDefault(); const message = $('#authMessage'); message.textContent = 'Entrando...'; try { cloudSession = await window.ProdantasCloud.signIn($('#adminEmail').value, $('#adminPassword').value); setAdminShell(true); renderProducts(); renderStock(); toast('Login realizado.'); await initializeCloud(); } catch (error) { message.textContent = error.message || 'E-mail ou senha inválidos.'; } });
+document.querySelector('[data-section="settings"]')?.insertAdjacentHTML('afterend', '<button class="admin-logout" id="adminLogout">↪ Sair</button>');
+$('#adminLogout')?.addEventListener('click', async () => { await window.ProdantasCloud?.signOut(); window.location.reload(); });
+renderProducts(); renderStock(); renderOrders(); initializeCloud();
 
