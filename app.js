@@ -1,4 +1,4 @@
-const products = [
+const defaultProducts = [
   { id: 1, name: 'Kit torneira monocomando Black', category: 'Hidráulica', price: 129.90, oldPrice: 159.90, image: '🚰', photo: 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80', tone: 'steel', badge: 'OFERTA' },
   { id: 2, name: 'Tinta acrílica fosca 18L branca', category: 'Tintas', price: 189.90, oldPrice: 229.90, image: '🪣', photo: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80', tone: 'red', badge: 'MAIS VENDIDO' },
   { id: 3, name: 'Furadeira de impacto 650W', category: 'Ferramentas', price: 219.90, oldPrice: 269.90, image: '🔩', photo: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=800&q=80', tone: 'yellow', badge: 'OFERTA' },
@@ -9,6 +9,8 @@ const products = [
   { id: 8, name: 'Impermeabilizante parede 4kg', category: 'Materiais', price: 79.90, oldPrice: 99.90, image: '🧴', photo: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80', tone: 'sand', badge: 'OFERTA' },
   { id: 9, name: 'Rolo de pintura antigota 23cm', category: 'Tintas', price: 29.90, oldPrice: 39.90, image: '🖌️', photo: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80', tone: 'yellow', badge: '' },
 ];
+
+const products = JSON.parse(localStorage.getItem('prodantas-products') || 'null') || defaultProducts;
 
 const state = { query: '', categories: [], price: 'all', sort: 'featured', cart: JSON.parse(localStorage.getItem('prodantas-cart') || '[]') };
 const money = value => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
