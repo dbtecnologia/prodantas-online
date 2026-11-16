@@ -10,7 +10,25 @@ const defaultProducts = [
   { id: 9, name: 'Rolo de pintura antigota 23cm', category: 'Tintas', price: 29.90, oldPrice: 39.90, image: '🖌️', photo: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80', tone: 'yellow', badge: '' },
 ];
 
-const products = JSON.parse(localStorage.getItem('prodantas-products') || 'null') || defaultProducts;
+let products = JSON.parse(localStorage.getItem('prodantas-products') || 'null') || defaultProducts;
+
+function fromCloudProduct(product) {
+  return { ...product, oldPrice: Number(product.old_price ?? product.oldPrice ?? 0), price: Number(product.price || 0), stock: Number(product.stock || 0) };
+}
+
+async function loadCloudProducts() {
+  if (!window.ProdantasCloud?.ready) return;
+  try {
+    const remoteProducts = await window.ProdantasCloud.listProducts();
+    if (remoteProducts?.length) {
+      products = remoteProducts.map(fromCloudProduct);
+      localStorage.setItem('prodantas-products', JSON.stringify(products));
+      renderProducts(); renderCart();
+    }
+  } catch (error) {
+    console.warn('Produtos online indisponíveis; usando o catálogo local.', error.message);
+  }
+}
 
 const state = { query: '', categories: [], price: 'all', sort: 'featured', cart: JSON.parse(localStorage.getItem('prodantas-cart') || '[]') };
 const money = value => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -67,5 +85,5 @@ document.querySelectorAll('[data-scroll]').forEach(button => button.addEventList
 document.querySelector('.checkout-button').addEventListener('click', () => showToast('Checkout demonstrativo: integração de pagamento pronta para conectar.'));
 $('#categoryMenu').addEventListener('click', () => document.querySelector('#catalogo').scrollIntoView({ behavior: 'smooth' }));
 
-renderProducts(); renderCart();
+renderProducts(); renderCart(); loadCloudProducts();
 
